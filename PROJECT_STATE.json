@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-02T20:45:00.000Z",
+  "updatedAt": "2026-07-02T20:45:09.688Z",
   "framework": "Next.js",
   "dbModels": [],
   "apiRoutes": [],
@@ -23,9 +23,6 @@
     "components/ui/card.tsx",
     "components/ui/input.tsx"
   ],
-  "dataFiles": [
-    "lib/video-data.ts"
-  ],
   "dependencies": [
     "@types/node",
     "@types/react",
@@ -41,15 +38,5 @@
     "tailwindcss",
     "typescript"
   ],
-  "fileCount": 30,
-  "repoUrl": "https://github.com/Goatkenziee/velvet-premium",
-  "lastCommit": "a510d39",
-  "buildStatus": "passing",
-  "features": {
-    "realVideoEmbeds": true,
-    "videoPlayerModal": true,
-    "scrollToContent": true,
-    "trendingVideos": 6,
-    "newReleaseVideos": 4
-  }
+  "fileCount": 30
 }
