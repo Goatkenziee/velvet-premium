@@ -1,0 +1,41 @@
+{
+  "updatedAt": "2026-07-02T20:12:43.738Z",
+  "framework": "Next.js",
+  "dbModels": [],
+  "apiRoutes": [],
+  "pages": [
+    "app/page.tsx"
+  ],
+  "components": [
+    "app/layout.tsx",
+    "components/sections/categories.tsx",
+    "components/sections/footer.tsx",
+    "components/sections/hero.tsx",
+    "components/sections/navbar.tsx",
+    "components/sections/new-releases.tsx",
+    "components/sections/premium-cta.tsx",
+    "components/sections/trending.tsx",
+    "components/sections/video-card.tsx",
+    "components/ui/avatar.tsx",
+    "components/ui/badge.tsx",
+    "components/ui/button.tsx",
+    "components/ui/card.tsx",
+    "components/ui/input.tsx"
+  ],
+  "dependencies": [
+    "@types/node",
+    "@types/react",
+    "@types/react-dom",
+    "autoprefixer",
+    "clsx",
+    "lucide-react",
+    "next",
+    "postcss",
+    "react",
+    "react-dom",
+    "tailwind-merge",
+    "tailwindcss",
+    "typescript"
+  ],
+  "fileCount": 26
+}
