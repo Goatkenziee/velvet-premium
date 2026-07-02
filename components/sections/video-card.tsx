@@ -1,102 +1,107 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
-import { Play, Eye, Clock, Heart } from "lucide-react";
-import { useState } from "react";
+import { Play, Heart, Clock, Eye } from "lucide-react";
+import type { VideoData } from "@/lib/video-data";
 
 interface VideoCardProps {
-  title: string;
-  thumbnail?: string;
-  duration: string;
-  views: string;
-  category: string;
-  premium?: boolean;
-  hd?: boolean;
-  className?: string;
+  video: VideoData;
+  onPlay?: (video: VideoData) => void;
   featured?: boolean;
 }
 
-const gradients = [
-  "from-pink-500/30 via-purple-500/20 to-transparent",
-  "from-blue-500/30 via-cyan-500/20 to-transparent",
-  "from-orange-500/30 via-red-500/20 to-transparent",
-  "from-emerald-500/30 via-teal-500/20 to-transparent",
-  "from-violet-500/30 via-indigo-500/20 to-transparent",
-  "from-rose-500/30 via-pink-500/20 to-transparent",
-];
-
-const thumbColors = [
-  "bg-gradient-to-br from-pink-600/40 to-purple-900/60",
-  "bg-gradient-to-br from-blue-600/40 to-indigo-900/60",
-  "bg-gradient-to-br from-orange-600/40 to-red-900/60",
-  "bg-gradient-to-br from-emerald-600/40 to-teal-900/60",
-  "bg-gradient-to-br from-violet-600/40 to-indigo-900/60",
-  "bg-gradient-to-br from-rose-600/40 to-pink-900/60",
-];
-
-const emojis = ["🔥", "💜", "✨", "🌶️", "💋", "👑"];
-
-export function VideoCard({ title, duration, views, category, premium, hd, className, featured }: VideoCardProps) {
-  const [liked, setLiked] = useState(false);
-  const idx = Math.floor(Math.random() * 6);
+export function VideoCard({ video, onPlay, featured }: VideoCardProps) {
+  // Generate a unique gradient based on the video id for the thumbnail placeholder
+  const hue1 = ((parseInt(video.id.slice(-6), 16) || 260) % 360);
+  const hue2 = (hue1 + 40) % 360;
+  const gradient = `linear-gradient(135deg, hsl(${hue1}, 70%, 20%), hsl(${hue2}, 80%, 12%))`;
 
   return (
-    <div className={cn("group cursor-pointer", className)}>
+    <div className="group relative overflow-hidden rounded-xl bg-card border border-border/50 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-0.5">
       {/* Thumbnail */}
-      <div className={cn("relative aspect-video rounded-xl overflow-hidden", featured ? "rounded-2xl" : "")}>
-        <div className={cn("absolute inset-0", thumbColors[idx])}>
-          <div className={cn("absolute inset-0 bg-gradient-to-br", gradients[idx])} />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-6xl opacity-30 select-none">{emojis[idx]}</span>
-          </div>
+      <div
+        className="relative aspect-video overflow-hidden cursor-pointer"
+        onClick={() => onPlay?.(video)}
+      >
+        {/* Gradient placeholder */}
+        <div
+          className="absolute inset-0"
+          style={{ background: gradient }}
+        />
+        {/* Decorative pattern overlay */}
+        <div
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(255,255,255,0.05) 0%, transparent 50%)",
+          }}
+        />
+
+        {/* Badges */}
+        <div className="absolute top-2 left-2 flex gap-1.5">
+          {video.hd && (
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary/80 text-white">
+              HD
+            </span>
+          )}
+          {video.premium && (
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-500/80 text-white">
+              PREMIUM
+            </span>
+          )}
         </div>
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
-          <div className="h-14 w-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100">
-            <Play className="h-6 w-6 text-white fill-white ml-0.5" />
-          </div>
+        {/* Duration badge */}
+        <div className="absolute bottom-2 left-2">
+          <span className="text-[11px] font-medium px-1.5 py-0.5 rounded bg-black/70 text-white/90 flex items-center gap-1">
+            <Clock className="w-3 h-3" />
+            {video.duration}
+          </span>
         </div>
 
-        {/* Top badges */}
-        <div className="absolute top-2 left-2 right-2 flex items-start justify-between">
-          <div className="flex gap-1.5">
-            {premium && <Badge variant="premium" className="text-[10px] px-1.5 py-0.5">PREMIUM</Badge>}
-            {hd && <Badge variant="default" className="text-[10px] px-1.5 py-0.5 bg-black/60 border-0">HD</Badge>}
+        {/* Play overlay on hover */}
+        <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 transition-all duration-300">
+          <div className="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100 transition-all duration-300 shadow-lg shadow-primary/25">
+            <Play className="w-6 h-6 text-white fill-white ml-0.5" />
           </div>
-          <button
-            onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
-            className="h-7 w-7 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <Heart className={cn("h-3.5 w-3.5", liked ? "fill-red-500 text-red-500" : "text-white")} />
-          </button>
-        </div>
-
-        {/* Duration */}
-        <div className="absolute bottom-2 right-2 rounded-md bg-black/70 px-1.5 py-0.5 text-[11px] font-medium text-white backdrop-blur-sm">
-          {duration}
         </div>
       </div>
 
       {/* Info */}
-      <div className="mt-3 space-y-1">
-        <div className="flex items-center gap-2">
-          <Badge variant="default" className="text-[10px] px-1.5 py-0 bg-muted/50 text-muted-foreground border-0">
-            {category}
-          </Badge>
+      <div className="p-3 space-y-1.5">
+        <div className="flex items-start justify-between gap-2">
+          <h3
+            className={`font-semibold text-white leading-tight line-clamp-1 ${
+              featured ? "text-base" : "text-sm"
+            }`}
+          >
+            {video.title}
+          </h3>
+          <button
+            className="shrink-0 p-1 rounded-full text-muted-foreground hover:text-primary transition-colors"
+            aria-label="Like"
+          >
+            <Heart className="w-4 h-4" />
+          </button>
         </div>
-        <h3 className="text-sm font-medium text-foreground leading-tight group-hover:text-primary transition-colors line-clamp-1">
-          {title}
-        </h3>
-        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+
+        <div className="flex items-center gap-3 text-[12px] text-muted-foreground">
           <span className="flex items-center gap-1">
-            <Eye className="h-3 w-3" /> {views}
+            <Eye className="w-3 h-3" />
+            {video.views}
           </span>
-          <span className="flex items-center gap-1">
-            <Clock className="h-3 w-3" /> {duration}
+          <span className="px-1.5 py-0.5 rounded-full bg-muted/50">
+            {video.category}
           </span>
         </div>
+
+        {/* Play button */}
+        <button
+          onClick={() => onPlay?.(video)}
+          className="w-full mt-1.5 flex items-center justify-center gap-2 py-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-xs font-semibold transition-colors"
+        >
+          <Play className="w-3.5 h-3.5 fill-primary" />
+          Play Now
+        </button>
       </div>
     </div>
   );

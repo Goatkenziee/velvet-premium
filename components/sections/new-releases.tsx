@@ -1,41 +1,56 @@
 "use client";
 
-import { VideoCard } from "./video-card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Sparkles, ChevronRight } from "lucide-react";
-
-const newVideos = [
-  { title: "Velvet Originals: First Time", duration: "45:20", views: "340K", category: "Amateur", premium: false, hd: true },
-  { title: "Parisian Nights — Exclusive", duration: "52:10", views: "280K", category: "European", premium: true, hd: true },
-  { title: "Passion Play — Ep. 7", duration: "38:45", views: "195K", category: "Professional", premium: false, hd: true },
-  { title: "Behind Closed Doors Vol. 12", duration: "41:30", views: "410K", category: "Couples", premium: false, hd: true },
-];
+import { useState } from "react";
+import { Sparkles } from "lucide-react";
+import { VideoCard } from "@/components/sections/video-card";
+import { VideoPlayer } from "@/components/sections/video-player";
+import { newReleaseVideos, type VideoData } from "@/lib/video-data";
 
 export function NewReleases() {
-  return (
-    <section id="new" className="relative py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between mb-10">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-accent" />
-              <h2 className="text-2xl sm:text-3xl font-bold">New Releases</h2>
-              <Badge variant="new" className="text-[10px]">LIVE</Badge>
-            </div>
-            <p className="text-muted-foreground text-sm">Updated daily with fresh content</p>
-          </div>
-          <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground">
-            What&apos;s New <ChevronRight className="h-3.5 w-3.5" />
-          </Button>
-        </div>
+  const [playingVideo, setPlayingVideo] = useState<VideoData | null>(null);
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {newVideos.map((video, i) => (
-            <VideoCard key={i} {...video} featured />
-          ))}
+  return (
+    <>
+      <section className="relative py-16 md:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section header */}
+          <div className="flex items-center justify-between mb-10">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-accent/10">
+                <Sparkles className="w-5 h-5 text-accent" />
+              </div>
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold text-white">
+                  New Releases
+                </h2>
+                <p className="text-sm text-muted-foreground mt-0.5">
+                  Fresh content added daily
+                </p>
+              </div>
+            </div>
+            <button className="hidden sm:flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors">
+              View All
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+
+          {/* Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {newReleaseVideos.map((video) => (
+              <VideoCard
+                key={video.id}
+                video={video}
+                onPlay={setPlayingVideo}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <VideoPlayer
+        video={playingVideo}
+        onClose={() => setPlayingVideo(null)}
+      />
+    </>
   );
 }

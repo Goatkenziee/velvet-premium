@@ -1,101 +1,86 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Play, Sparkles, ChevronRight, Shield } from "lucide-react";
-import Link from "next/link";
-
-const categories = [
-  "Amateur", "Professional", "Lesbian", "Trans", "Couples",
-  "Solo", "VR", "BDSM", "Asian", "European", "Anal", "Threesome"
-];
+import { Play, Shield, Zap, ChevronDown } from "lucide-react";
 
 export function Hero() {
+  const scrollToContent = () => {
+    const trendingSection = document.getElementById("trending");
+    if (trendingSection) {
+      trendingSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden pt-16">
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full bg-primary/10 blur-[120px]" />
-        <div className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-accent/10 blur-[120px]" />
-      </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/95" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(var(--primary)/0.15)_0%,_transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,_hsl(var(--accent)/0.08)_0%,_transparent_50%)]" />
 
-      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left — Text */}
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <Badge variant="premium" className="text-xs tracking-widest uppercase px-3 py-1">
-                <Sparkles className="h-3 w-3 mr-1" /> The Ultimate Experience
-              </Badge>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight">
-                Welcome to{" "}
-                <span className="gradient-text">Velvet</span>
-                <br />
-                <span className="text-foreground/80">Where Fantasy Meets Reality</span>
-              </h1>
-              <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">
-                Thousands of exclusive HD videos. Curated categories. Zero ads.
-                The premium adult entertainment platform designed for the
-                discerning viewer.
-              </p>
-            </div>
+      {/* Grid pattern */}
+      <div className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
+          backgroundSize: "60px 60px",
+        }}
+      />
 
-            <div className="flex flex-wrap gap-3">
-              <Button size="lg" className="gap-2 text-base h-12 px-8 bg-gradient-to-r from-primary to-accent hover:opacity-90 glow">
-                <Play className="h-5 w-5 fill-current" />
-                Start Watching Free
-              </Button>
-              <Button size="lg" variant="outline" className="gap-2 text-base h-12 px-8">
-                <Shield className="h-5 w-5" />
-                View Plans
-              </Button>
-            </div>
+      {/* Content */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8">
+          <Zap className="w-4 h-4 fill-primary" />
+          Premium HD Streaming — No Ads
+        </div>
 
-            {/* Stats */}
-            <div className="flex gap-8 pt-4">
-              <div>
-                <div className="text-2xl font-bold gradient-text">50K+</div>
-                <div className="text-xs text-muted-foreground">HD Videos</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold gradient-text">2M+</div>
-                <div className="text-xs text-muted-foreground">Active Members</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold gradient-text">4K</div>
-                <div className="text-xs text-muted-foreground">Ultra HD</div>
-              </div>
-            </div>
-          </div>
+        {/* Headline */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight">
+          <span className="text-white">Experience</span>
+          <br />
+          <span className="gradient-text">Velvet</span>
+          <span className="text-white">.</span>
+        </h1>
 
-          {/* Right — Category Cloud */}
-          <div className="hidden lg:block">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl blur-3xl" />
-              <div className="relative rounded-3xl border border-border/50 bg-card/50 p-8 backdrop-blur-sm">
-                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">
-                  Browse Categories
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {categories.map((cat) => (
-                    <Link
-                      key={cat}
-                      href={`/category/${cat.toLowerCase()}`}
-                      className="group inline-flex items-center gap-1 rounded-full border border-border bg-background/50 px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:border-primary/50 hover:bg-primary/5 transition-all"
-                    >
-                      {cat}
-                      <ChevronRight className="h-3 w-3 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
-                    </Link>
-                  ))}
-                </div>
-                <div className="mt-6 pt-6 border-t border-border/50">
-                  <Link href="/categories" className="text-sm text-primary hover:text-accent transition-colors inline-flex items-center gap-1">
-                    View all 40+ categories <ChevronRight className="h-3 w-3" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* Subheadline */}
+        <p className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          Thousands of exclusive HD videos. Curated categories. Zero ads.
+          <br />
+          The premium adult entertainment platform designed for the discerning viewer.
+        </p>
+
+        {/* CTA Buttons */}
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button
+            onClick={scrollToContent}
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-primary hover:bg-primary/90 text-white font-semibold text-base transition-all duration-200 shadow-lg shadow-primary/25 hover:shadow-primary/40"
+          >
+            <Play className="w-5 h-5 fill-white" />
+            Watch Now
+          </button>
+          <button className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-muted hover:bg-muted/80 text-foreground font-semibold text-base transition-all duration-200 border border-border/50">
+            Explore Categories
+          </button>
+        </div>
+
+        {/* Trust badges */}
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
+          <span className="flex items-center gap-1.5">
+            <Shield className="w-4 h-4 text-green-500" />
+            18+ Verified
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Play className="w-4 h-4 text-primary" />
+            10,000+ Videos
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Zap className="w-4 h-4 text-amber-400" />
+            4K HDR Quality
+          </span>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="mt-16 animate-bounce">
+          <ChevronDown className="w-6 h-6 text-muted-foreground/50 mx-auto" />
         </div>
       </div>
     </section>
