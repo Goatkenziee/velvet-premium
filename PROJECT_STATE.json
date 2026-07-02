@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-02T20:12:43.738Z",
+  "updatedAt": "2026-07-02T20:45:00.000Z",
   "framework": "Next.js",
   "dbModels": [],
   "apiRoutes": [],
@@ -16,11 +16,15 @@
     "components/sections/premium-cta.tsx",
     "components/sections/trending.tsx",
     "components/sections/video-card.tsx",
+    "components/sections/video-player.tsx",
     "components/ui/avatar.tsx",
     "components/ui/badge.tsx",
     "components/ui/button.tsx",
     "components/ui/card.tsx",
     "components/ui/input.tsx"
+  ],
+  "dataFiles": [
+    "lib/video-data.ts"
   ],
   "dependencies": [
     "@types/node",
@@ -37,5 +41,15 @@
     "tailwindcss",
     "typescript"
   ],
-  "fileCount": 26
+  "fileCount": 30,
+  "repoUrl": "https://github.com/Goatkenziee/velvet-premium",
+  "lastCommit": "a510d39",
+  "buildStatus": "passing",
+  "features": {
+    "realVideoEmbeds": true,
+    "videoPlayerModal": true,
+    "scrollToContent": true,
+    "trendingVideos": 6,
+    "newReleaseVideos": 4
+  }
 }
